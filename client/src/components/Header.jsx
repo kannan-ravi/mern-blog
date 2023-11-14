@@ -21,7 +21,7 @@ const Header = () => {
           </Link>
           <Link
             to="/register"
-            className="border-2 border-black py-2 px-4  bg-black text-white  duration-200 rounded-full"
+            className="border-2 border-black py-2 px-4  bg-black text-white  duration-200 rounded-md leading-normal"
           >
             Get Started
           </Link>

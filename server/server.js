@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./config/connectDB.js";
 import mongoose from "mongoose";
-
+import connectDB from "./config/connectDB.js";
+import userRouter from "./router/user.route.js";
+import errorHandler from "./middleware/errorHandler.js";
 dotenv.config();
 
 const app = express();
@@ -13,6 +14,9 @@ connectDB();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use("/api/auth", userRouter);
+
+app.use(errorHandler.defaultErrorHandler);
 mongoose.connection.once("open", () => {
   console.log("Connected to DATABASE");
   app.listen(PORT, () => {
