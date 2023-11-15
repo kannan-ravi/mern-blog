@@ -4,7 +4,7 @@ const connectDB = async () => {
   try {
     mongoose.set("strictQuery", false);
     await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: "mern-auth",
+      dbName: "mern-blog",
     });
   } catch (error) {
     console.log(error);
