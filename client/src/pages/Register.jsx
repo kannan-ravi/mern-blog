@@ -8,7 +8,6 @@ const Register = () => {
   const [formData, setFormData] = useState({});
   const [isConfirmPassword, setIsConfirmPassword] = useState(true);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,10 +23,9 @@ const Register = () => {
       try {
         const { confirmPassword, ...registerData } = formData;
         const registerResponse = await api.post("auth/register", registerData);
-        navigate("/");
+        navigate("/login");
       } catch (error) {
         setError(true);
-        setErrorMessage(error);
       }
     }
   };
@@ -83,7 +81,9 @@ const Register = () => {
           register
         </button>
       </form>
-      <p className="text-red-800 text-xs max-w-xl mx-auto mt-2">{error && "Something went wrong"}</p>
+      <p className="text-red-800 text-xs max-w-xl mx-auto mt-2">
+        {error && "Something went wrong"}
+      </p>
       <p className="max-w-xl  mx-auto mt-2">
         Already have an account{" "}
         <Link to="/login" className="text-blue-600 underline">

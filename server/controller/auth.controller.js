@@ -21,17 +21,21 @@ const loginUser = async (req, res, next) => {
   try {
     const validUser = await userModel.findOne({ email });
     if (!validUser)
-      return next(errorHandler.customErrorHandler(404, "User not found"));
+      return next(
+        errorHandler.customErrorHandler(404, "Email/Password Incorrect")
+      );
 
     const validPassword = bcrypt.compareSync(password, validUser.password);
     if (!validPassword)
-      return next(errorHandler.customErrorHandler(401, "Wrong Credentials"));
+      return next(
+        errorHandler.customErrorHandler(401, "Email/Password is incorrect")
+      );
 
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: hashedPassword, ...rest } = validUser._doc;
-    // const expireDate = new Date(Date.now() + 24 * 60)
+    const expireDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
     res
-      .cookie("access_token", token, { httpOnly: true, expiresIn: "2h" })
+      .cookie("access_token", token, { httpOnly: true, expires: expireDate })
       .status(200)
       .json(rest);
   } catch (error) {
