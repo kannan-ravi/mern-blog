@@ -2,11 +2,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
+import { useDispatch, useSelector } from "react-redux";
+import { authFailure, authStart, authSuccess } from "../redux/slices/UserSlice";
+
 const Login = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
-  const [error, setError] = useState(false);
+  const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
+  const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,14 +19,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setError(false);
-      setErrorMessage("");
+      dispatch(authStart());
       const loginResponse = await api.post("/auth/login", formData);
-
+      dispatch(authSuccess(loginResponse.data));
       navigate("/");
     } catch (error) {
-      setError(true);
-      setErrorMessage(error.response.data.message);
+      dispatch(authFailure(error.response.data.message));
     }
   };
 
@@ -54,18 +56,16 @@ const Login = () => {
 
         <button
           type="submit"
-          className="px-3 py-2 uppercase bg-black rounded text-white mt-4 font-bold"
+          className="px-3 py-2 uppercase bg-black rounded text-lime-300 mt-4 font-bold duration-200 hover:bg-lime-300 hover:text-black"
         >
-          login
+          {loading ? "loading..." : "login"}
         </button>
       </form>
-      <p className="text-red-800 max-w-xl mx-auto mt-2">
-        {error ? errorMessage || "Something Went Wrong" : ""}
-      </p>
+      <p className="text-red-800 max-w-xl mx-auto mt-2">{error && error}</p>
       <p className="max-w-xl  mx-auto mt-2">
         Don't have an account{" "}
-        <Link to="/register" className="text-blue-600 underline">
-          register
+        <Link to="/register" className="text-blue-600 font-semibold underline">
+          Register
         </Link>
       </p>
     </section>

@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { authStart, authFailure, authSuccess } from "../redux/slices/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 import api from "../api/axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
   const [isConfirmPassword, setIsConfirmPassword] = useState(true);
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,11 +24,13 @@ const Register = () => {
     } else {
       setIsConfirmPassword(true);
       try {
+        dispatch(authStart());
         const { confirmPassword, ...registerData } = formData;
         const registerResponse = await api.post("auth/register", registerData);
+        dispatch(authSuccess(registerResponse.data));
         navigate("/login");
-      } catch (error) {
-        setError(true);
+      } catch (err) {
+        dispatch(authFailure(err.response.data.message));
       }
     }
   };
@@ -76,17 +81,17 @@ const Register = () => {
         </p>
         <button
           type="submit"
-          className="px-3 py-2 uppercase bg-black rounded text-white mt-0 font-bold"
+          className="px-3 py-2 uppercase bg-black rounded text-lime-300 mt-0 font-bold duration-200 hover:bg-lime-300 hover:text-black"
         >
-          register
+          {loading ? "loading..." : "register"}
         </button>
       </form>
       <p className="text-red-800 text-xs max-w-xl mx-auto mt-2">
-        {error && "Something went wrong"}
+        {error && "Something Went Wrong"}
       </p>
       <p className="max-w-xl  mx-auto mt-2">
         Already have an account{" "}
-        <Link to="/login" className="text-blue-600 underline">
+        <Link to="/login" className="text-blue-600 font-semibold underline">
           Login
         </Link>
       </p>
