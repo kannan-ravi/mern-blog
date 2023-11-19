@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { authStart, authFailure, authSuccess } from "../redux/slices/UserSlice";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import {
+  authStart,
+  authFailure,
+  authSuccess,
+  allUserSlice,
+} from "../app/features/UserSlice";
 import api from "../api/axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
   const [isConfirmPassword, setIsConfirmPassword] = useState(true);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.user);
+
+  const { loading, error } = useSelector(allUserSlice);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

@@ -29,5 +29,6 @@ export const userSlice = createSlice({
   },
 });
 
+export const allUserSlice = (state) => state.user;
 export const { authStart, authSuccess, authFailure } = userSlice.actions;
 export default userSlice.reducer;

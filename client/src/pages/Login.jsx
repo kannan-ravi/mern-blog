@@ -3,13 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
 import { useDispatch, useSelector } from "react-redux";
-import { authFailure, authStart, authSuccess } from "../redux/slices/UserSlice";
+import { authFailure, authStart, authSuccess } from "../app/features/UserSlice";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState("");
   const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
