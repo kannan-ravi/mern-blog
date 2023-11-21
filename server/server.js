@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import connectDB from "./config/connectDB.js";
 import userRouter from "./router/user.route.js";
+import postRouter from "./router/post.route.js";
 import errorHandler from "./middleware/errorHandler.js";
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/auth", userRouter);
+app.use("/api/post", postRouter);
 
 app.use(errorHandler.defaultErrorHandler);
 mongoose.connection.once("open", () => {
