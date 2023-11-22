@@ -1,8 +1,9 @@
 import express from "express";
-import userController from "../controller/auth.controller.js";
+import userController from "../controller/user.controller.js";
+import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.route("/register").post(userController.registerUser);
-router.route("/login").post(userController.loginUser);
+router.route("/update/:id").put(verifyToken, userController.updateUser);
+
 export default router;

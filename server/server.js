@@ -2,9 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import connectDB from "./config/connectDB.js";
+import authRouter from "./router/auth.route.js";
 import userRouter from "./router/user.route.js";
 import postRouter from "./router/post.route.js";
 import errorHandler from "./middleware/errorHandler.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -14,8 +16,10 @@ connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
-app.use("/api/auth", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 
 app.use(errorHandler.defaultErrorHandler);
