@@ -1,12 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import path from "path";
 import connectDB from "./config/connectDB.js";
 import authRouter from "./router/auth.route.js";
 import userRouter from "./router/user.route.js";
 import postRouter from "./router/post.route.js";
 import errorHandler from "./middleware/errorHandler.js";
-import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(express.static("./server/public"));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);

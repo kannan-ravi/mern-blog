@@ -22,10 +22,19 @@ const postSchema = new Schema({
     required: true,
   },
 
-  dateTime: {
+  category: {
+    type: [],
+  },
+
+  datetime: {
     type: String,
     default: new Date().toLocaleString(),
     required: true,
+  },
+
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

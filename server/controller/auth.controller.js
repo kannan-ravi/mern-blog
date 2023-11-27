@@ -5,6 +5,22 @@ import errorHandler from "../middleware/errorHandler.js";
 
 const registerUser = async (req, res, next) => {
   const { username, email, password } = req.body;
+
+  const validUserUser = await userModel.findOne({
+    username: req.body.username,
+  });
+  if (validUserUser) {
+    return next(
+      errorHandler.customErrorHandler(409, "Username is already taken")
+    );
+  }
+  const validUserEmail = await userModel.findOne({ email });
+  if (validUserEmail) {
+    return next(
+      errorHandler.customErrorHandler(409, "Email already exist, please login")
+    );
+  }
+
   const hashedPassword = await bcrypt.hash(password, 11);
   const newUser = new userModel({ username, email, password: hashedPassword });
   try {
@@ -22,7 +38,7 @@ const loginUser = async (req, res, next) => {
     const validUser = await userModel.findOne({ email });
     if (!validUser)
       return next(
-        errorHandler.customErrorHandler(404, "Email/Password Incorrect")
+        errorHandler.customErrorHandler(404, "User not found, Please register")
       );
 
     const validPassword = bcrypt.compareSync(password, validUser.password);

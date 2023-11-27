@@ -5,7 +5,8 @@ import { signOut } from "../app/features/UserSlice";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const { currentUser } = useSelector(allUserSlice);
@@ -55,46 +56,53 @@ const Header = () => {
           onClick={() => setDropDown(true)}
         />
       </button>
-      {dropDown && (
-        <div
-          className="absolute z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow top-5 right-5 "
-          id="user-dropdown"
-          ref={dropdownRef}
-        >
-          <div className="px-4 py-3">
-            <span className="block text-sm text-gray-900 ">
-              {currentUser.username}
-            </span>
-            <span className="block text-sm text-gray-500 truncate ">
-              {currentUser.email}
-            </span>
-          </div>
-          <ul className="py-2" aria-labelledby="user-menu-button">
-            <li>
-              <Link
-                to="/profile"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={(e) => setDropDown(false)}
-              >
-                Profile
-              </Link>
-            </li>
+      <AnimatePresence>
+        {dropDown && (
+          <motion.div
+            className="absolute z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow top-5 right-5 "
+            id="user-dropdown"
+            ref={dropdownRef}
+            key="headerDropdown"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="px-4 py-3">
+              <span className="block text-sm text-gray-900 ">
+                {currentUser.username}
+              </span>
+              <span className="block text-sm text-gray-500 truncate ">
+                {currentUser.email}
+              </span>
+            </div>
+            <ul className="py-2" aria-labelledby="user-menu-button">
+              <li>
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={(e) => setDropDown(false)}
+                >
+                  Profile
+                </Link>
+              </li>
 
-            <li>
-              <p
-                to="/"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => {
-                  setDropDown(false);
-                  handleLogout();
-                }}
-              >
-                Logout
-              </p>
-            </li>
-          </ul>
-        </div>
-      )}
+              <li>
+                <p
+                  to="/"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={() => {
+                    setDropDown(false);
+                    handleLogout();
+                  }}
+                >
+                  Logout
+                </p>
+              </li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   ) : (
     <Link
@@ -131,10 +139,10 @@ const Header = () => {
               </li>
               <li>
                 <Link
-                  to="/about"
+                  to="/new-post"
                   className="px-3 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0"
                 >
-                  About
+                  Write
                 </Link>
               </li>
 
@@ -143,7 +151,7 @@ const Header = () => {
                   to="/contact"
                   className="px-3 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0"
                 >
-                  Contact
+                  My Post
                 </Link>
               </li>
             </ul>
