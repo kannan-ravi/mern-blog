@@ -3,19 +3,15 @@ import api from "../api/axios";
 import { allUserSlice } from "../app/features/UserSlice";
 import { signOut } from "../app/features/UserSlice";
 
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { allPostSlice } from "../app/features/PostSlice";
-import ButtonComponent from "./ui/ButtonComponent";
 
 const Header = () => {
   const { currentUser } = useSelector(allUserSlice);
-  const { editPost } = useSelector(allPostSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
   const [dropDown, setDropDown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -34,16 +30,6 @@ const Header = () => {
       await api.get("/auth/logout");
       dispatch(signOut());
       navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handlePublish = async () => {
-    console.log(editPost);
-    try {
-      const res = await api.post("/post/new-post", editPost);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -134,13 +120,6 @@ const Header = () => {
           </Link>
           <div className="flex items-center gap-4 space-x-3 md:gap-6 md:order-2 md:space-x-0 justify-self-end">
             {headerUserLogic}
-            {location.pathname === "/new-post" && (
-              <ButtonComponent
-                type="submit"
-                onClick={handlePublish}
-                buttonText="publish"
-              />
-            )}
           </div>
           <div
             className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 justify-self-center"

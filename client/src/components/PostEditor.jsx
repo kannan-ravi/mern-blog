@@ -5,11 +5,12 @@ import List from "@editorjs/list";
 import CodeTool from "@editorjs/code";
 import Delimiter from "@editorjs/delimiter";
 import ImageTool from "@editorjs/image";
+import Paragraph from "@editorjs/paragraph";
 
 import { useEffect, useRef } from "react";
 import "./posteditor.css";
 
-const PostEditor = ({ data, onChanges }) => {
+const PostEditor = ({ data, onChange }) => {
   const editorRef = useRef();
   const editorJsTools = {
     header: {
@@ -20,6 +21,10 @@ const PostEditor = ({ data, onChanges }) => {
         levels: [2, 3, 4],
         defaultlevel: 2,
       },
+    },
+
+    paragraph: {
+      class: Paragraph,
     },
 
     image: {
@@ -63,7 +68,7 @@ const PostEditor = ({ data, onChanges }) => {
       },
       onChange: async () => {
         let content = await editor.saver.save();
-        onChanges(content);
+        onChange(content);
       },
     });
   };
