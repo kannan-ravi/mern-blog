@@ -2,6 +2,7 @@ import errorHandler from "../middleware/errorHandler.js";
 import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
+// UPDATE USER DETAILS
 const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id) {
     return next(
@@ -42,6 +43,7 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+// UPDATE USER IMAGE
 const uploadImage = async (req, res, next) => {
   if (!req.file) {
     return res.status(404).json("no file received");

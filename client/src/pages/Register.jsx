@@ -10,6 +10,9 @@ import {
   registerSuccess,
 } from "../app/features/UserSlice";
 import api from "../api/axios";
+import ErrorComponent from "../components/ui/ErrorComponent";
+import InputComponent from "../components/ui/InputComponent";
+import ButtonComponent from "../components/ui/ButtonComponent";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
@@ -51,51 +54,45 @@ const Register = () => {
         className="flex flex-col max-w-xl gap-5 mx-auto mt-9 lg:mt-11"
         onSubmit={handleSubmit}
       >
-        <input
-          type="text"
-          placeholder="Username"
-          name="username"
-          className="w-full px-3 py-2 border rounded"
+        <InputComponent
+          type={"text"}
+          placeholder={"Username"}
           onChange={handleChange}
-          required
+          name={"username"}
         />
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          className="w-full px-3 py-2 border rounded"
+
+        <InputComponent
+          type={"email"}
+          placeholder={"Email"}
+          name={"email"}
           onChange={handleChange}
-          required
         />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          className="w-full px-3 py-2 border rounded"
+
+        <InputComponent
+          type={"password"}
+          placeholder={"Password"}
+          name={"password"}
           onChange={handleChange}
-          required
         />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          className="w-full px-3 py-2 border rounded"
+        <InputComponent
+          type={"password"}
+          placeholder={"Confirm Password"}
+          name={"confirmPassword"}
           onChange={handleChange}
-          required
         />
-        <p className="text-xs text-red-800">
-          {!isConfirmPassword && "Password not matched"}
-        </p>
-        <button
+
+        <ErrorComponent
+          isError={!isConfirmPassword}
+          message={"Password not matched"}
+        />
+        <ButtonComponent
           type="submit"
-          className="px-3 py-2 mt-0 font-bold uppercase duration-200 bg-black rounded text-lime-300 hover:bg-lime-300 hover:text-black"
-        >
-          {loading ? "loading..." : "register"}
-        </button>
+          isLoading={loading}
+          loadingText="loading..."
+          buttonText="register"
+        />
       </form>
-      <p className="max-w-xl mx-auto mt-2 text-xs text-red-800">
-        {error && error}
-      </p>
+      <ErrorComponent isError={error} message={error} />
       <p className="max-w-xl mx-auto mt-2">
         Already have an account{" "}
         <Link to="/login" className="font-semibold text-blue-600 underline">

@@ -9,6 +9,9 @@ import {
   authStart,
   authSuccess,
 } from "../app/features/UserSlice";
+import ErrorComponent from "../components/ui/ErrorComponent";
+import InputComponent from "../components/ui/InputComponent";
+import ButtonComponent from "../components/ui/ButtonComponent";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
@@ -42,31 +45,27 @@ const Login = () => {
         className="flex flex-col max-w-xl gap-5 mx-auto mt-9 lg:mt-11"
         onSubmit={handleSubmit}
       >
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          className="w-full px-3 py-2 border rounded"
+        <InputComponent
+          type={"email"}
+          placeholder={"Email"}
+          name={"email"}
           onChange={handleChange}
-          required
         />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          className="w-full px-3 py-2 border rounded"
+        <InputComponent
+          type={"password"}
+          placeholder={"Password"}
+          name={"password"}
           onChange={handleChange}
-          required
         />
 
-        <button
+        <ButtonComponent
           type="submit"
-          className="px-3 py-2 mt-4 font-bold uppercase duration-200 bg-black rounded text-lime-300 hover:bg-lime-300 hover:text-black"
-        >
-          {loading ? "loading..." : "login"}
-        </button>
+          isLoading={loading}
+          loadingText="loading..."
+          buttonText="login"
+        />
       </form>
-      <p className="max-w-xl mx-auto mt-2 text-red-800">{error && error}</p>
+      <ErrorComponent isError={error} message={error} />
       <p className="max-w-xl mx-auto mt-2">
         Don't have an account{" "}
         <Link to="/register" className="font-semibold text-blue-600 underline">

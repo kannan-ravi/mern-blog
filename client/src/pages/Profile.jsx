@@ -8,6 +8,8 @@ import {
   updateSuccess,
 } from "../app/features/UserSlice";
 import api from "../api/axios";
+import ErrorComponent from "../components/ui/ErrorComponent";
+import ButtonComponent from "../components/ui/ButtonComponent";
 
 const Profile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -112,14 +114,13 @@ const Profile = () => {
                   className="object-cover w-full"
                 />
               ) : (
-                <p>
-                  Upload your profile picture here <br />
-                  {uploadError && (
-                    <span className="font-semibold text-red-700">
-                      Please select the image
-                    </span>
-                  )}
-                </p>
+                <div>
+                  <p>Upload your profile picture here</p> <br />
+                  <ErrorComponent
+                    isError={uploadError}
+                    message={"Please select the image"}
+                  />
+                </div>
               )}
             </label>
 
@@ -212,29 +213,27 @@ const Profile = () => {
             placeholder="New Password"
             onChange={handleChange}
           />
-          <button
-            className="w-full py-2 mt-1 duration-300 bg-lime-200 hover:bg-lime-400"
+          <ButtonComponent
             type="submit"
-          >
-            {loading ? "Updating..." : "Update"}
-          </button>
+            isLoading={loading}
+            loadingText="loading..."
+            buttonText="update"
+          />
         </form>
-        {error && (
-          <p className="max-w-2xl px-4 mx-auto mt-2 text-sm text-red-900">
-            {error}
-          </p>
-        )}
+        <ErrorComponent isError={error} message={error} />
+
         {textUploadStatus && (
           <p className="max-w-2xl px-4 mx-auto mt-2 text-sm text-green-700">
             Succesfully Updated
           </p>
         )}
-        {oldNewPassword && (
-          <p className="max-w-2xl px-4 mx-auto mt-2 text-sm text-red-700">
-            Invalid password update. Ensure both fields are filled or both are
-            empty
-          </p>
-        )}
+
+        <ErrorComponent
+          isError={oldNewPassword}
+          message={
+            "Invalid password update. Ensure both fields are filled or both are empty"
+          }
+        />
       </section>
     </main>
   );

@@ -17,4 +17,23 @@ const updatePost = async (req, res, next) => {};
 
 const deletePost = async (req, res, next) => {};
 
-export default { getPost, createPost, updatePost, deletePost };
+const uploadPostImage = async (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "No file uploaded" });
+  }
+  try {
+    const imageUrl = `http://localhost:3000/post-image/${req.file.filename}`;
+
+    const imageData = {
+      success: 1,
+      file: {
+        url: imageUrl,
+      },
+    };
+    return res.status(200).json(imageData);
+  } catch (error) {
+    return res.status(500).json({ message: "Error uploading image" });
+  }
+};
+
+export default { getPost, createPost, updatePost, deletePost, uploadPostImage };

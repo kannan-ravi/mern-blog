@@ -3,15 +3,19 @@ import api from "../api/axios";
 import { allUserSlice } from "../app/features/UserSlice";
 import { signOut } from "../app/features/UserSlice";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { allPostSlice } from "../app/features/PostSlice";
+import ButtonComponent from "./ui/ButtonComponent";
 
 const Header = () => {
   const { currentUser } = useSelector(allUserSlice);
+  const { editPost } = useSelector(allPostSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const [dropDown, setDropDown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -35,6 +39,16 @@ const Header = () => {
     }
   };
 
+  const handlePublish = async () => {
+    console.log(editPost);
+    try {
+      const res = await api.post("/post/new-post", editPost);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", closeOpenMenus);
     return () => {
@@ -43,19 +57,14 @@ const Header = () => {
   });
 
   const headerUserLogic = currentUser ? (
-    <div className="relative flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
-      <button
-        type="button"
-        className="flex text-sm rounded-full md:me-0 focus:ring-4 focus:ring-gray-300"
-      >
-        <span className="sr-only">Open user menu</span>
-        <img
-          className="w-8 h-8 border border-white rounded-full"
-          src={currentUser.profilePicture}
-          alt={`${currentUser.username} photo`}
-          onClick={() => setDropDown(true)}
-        />
-      </button>
+    <div className="relative flex items-center order-2 space-x-3 md:space-x-0">
+      <img
+        className="object-cover w-12 border border-white rounded-full"
+        src={currentUser.profilePicture}
+        alt={`${currentUser.username} photo`}
+        onClick={() => setDropDown(true)}
+        role="button"
+      />
       <AnimatePresence>
         {dropDown && (
           <motion.div
@@ -115,17 +124,26 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="bg-gray-200 border-gray-200">
-        <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
+      <nav className="border-b-2 border-gray-400">
+        <div className="grid max-w-screen-xl grid-cols-2 p-4 mx-auto md:grid-cols-3">
           <Link
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img src={logo} className="h-8" alt="Flowbite Logo" />
           </Link>
-          {headerUserLogic}
+          <div className="flex items-center gap-4 space-x-3 md:gap-6 md:order-2 md:space-x-0 justify-self-end">
+            {headerUserLogic}
+            {location.pathname === "/new-post" && (
+              <ButtonComponent
+                type="submit"
+                onClick={handlePublish}
+                buttonText="publish"
+              />
+            )}
+          </div>
           <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 justify-self-center"
             id="navbar-user"
           >
             <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg md:p-0 md:space-x-8 md:flex-row md:mt-0 md:border-0">

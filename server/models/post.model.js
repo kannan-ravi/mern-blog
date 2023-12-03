@@ -13,7 +13,7 @@ const postSchema = new Schema({
   },
 
   content: {
-    type: [],
+    type: {},
     required: true,
   },
 

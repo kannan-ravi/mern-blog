@@ -15,11 +15,6 @@ export const userSlice = createSlice({
       state.error = false;
     },
 
-    registerSuccess: (state) => {
-      state.loading = true;
-      state.error = false;
-    },
-
     authSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
@@ -30,6 +25,23 @@ export const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = action.payload;
+    },
+
+    registerSuccess: (state) => {
+      state.loading = false;
+      state.error = false;
+    },
+
+    isAuthTrue: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = false;
+    },
+
+    isAuthFalse: (state, action) => {
+      state.currentUser = null;
+      state.loading = false;
+      state.error = false;
     },
 
     updateStart: (state) => {
@@ -62,6 +74,8 @@ export const {
   registerSuccess,
   authSuccess,
   authFailure,
+  isAuthTrue,
+  isAuthFalse,
   updateStart,
   updateSuccess,
   updateFailure,
