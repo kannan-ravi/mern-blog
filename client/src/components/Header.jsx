@@ -145,7 +145,7 @@ const Header = () => {
 
               <li>
                 <Link
-                  to="/contact"
+                  to="/my-post"
                   className="px-3 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0"
                 >
                   My Post

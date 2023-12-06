@@ -7,11 +7,15 @@ import Delimiter from "@editorjs/delimiter";
 import ImageTool from "@editorjs/image";
 import Paragraph from "@editorjs/paragraph";
 
-import { useEffect, useRef } from "react";
-import "./posteditor.css";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-const PostEditor = ({ data, onChange }) => {
+const PostEditor = ({ data, setInitalData }) => {
   const editorRef = useRef();
+
+  const handleContentChange = useCallback(async () => {
+    const content = await editorRef.current.saver.save();
+    setInitalData(content);
+  }, [setInitalData]);
   const editorJsTools = {
     header: {
       class: Header,
@@ -66,10 +70,7 @@ const PostEditor = ({ data, onChange }) => {
       onReady: () => {
         editorRef.current = editor;
       },
-      onChange: async () => {
-        let content = await editor.saver.save();
-        onChange(content);
-      },
+      onChange: handleContentChange,
     });
   };
 

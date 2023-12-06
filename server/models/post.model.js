@@ -10,6 +10,7 @@ const postSchema = new Schema({
 
   subtitle: {
     type: String,
+    required: true,
   },
 
   content: {
@@ -24,6 +25,7 @@ const postSchema = new Schema({
 
   category: {
     type: [],
+    required: true,
   },
 
   datetime: {

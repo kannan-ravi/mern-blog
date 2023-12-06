@@ -1,15 +1,25 @@
 import postModel from "../models/post.model.js";
-
+import errorHandler from "../middleware/errorHandler.js";
 const getPost = async (req, res, next) => {};
 
 const createPost = async (req, res, next) => {
-  const { title, subtitle, content, author, date } = req.body;
-  try {
-    const newPost = new postModel({ title, subtitle, content, author, date });
-    await newPost.save();
-    res.status(200).json(req.body);
-  } catch (error) {
-    next(error);
+  const { title, subtitle, content, author, category } = req.body;
+  if (title && subtitle && content && author && category) {
+    try {
+      const newPost = new postModel({
+        title,
+        subtitle,
+        content,
+        author,
+        category,
+      });
+      await newPost.save();
+      res.status(200).json("Post Created");
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    next(errorHandler.customErrorHandler(500, req.body));
   }
 };
 

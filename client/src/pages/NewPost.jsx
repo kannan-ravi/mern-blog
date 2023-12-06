@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import PostEditor from "../components/PostEditor";
 import api from "../api/axios";
 import { allUserSlice } from "../app/features/UserSlice";
-import { allPostSlice, editingPost } from "../app/features/PostSlice";
 import InputComponent from "../components/ui/InputComponent";
 import ButtonComponent from "../components/ui/ButtonComponent";
 import ErrorComponent from "../components/ui/ErrorComponent";
 const NewPost = () => {
   const { currentUser } = useSelector(allUserSlice);
-  const { editPost } = useSelector(allPostSlice);
 
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [initData, setInitData] = useState({});
   const [formData, setFormData] = useState(null);
@@ -36,31 +35,41 @@ const NewPost = () => {
 
   const handlePublish = async (e) => {
     e.preventDefault();
-    setFormData({
+    setErrorMessage("");
+    const newFormData = {
       ...formData,
       author: currentUser,
       category: tags,
       content: initData,
-    });
+    };
 
-    if (formData?.title?.length > 120 || formData?.title?.length === 0) {
-      setErrorMessage("Title length should be 0-120 characters");
-    } else if (
-      formData?.subtitle?.length > 180 ||
-      formData?.subtitle?.length == 0
+    if (
+      !newFormData.title ||
+      newFormData.title.length < 5 ||
+      newFormData.title.length > 120
     ) {
-      setErrorMessage("Subtitle length should be 0-180 characters");
+      setErrorMessage("Title Characters should be atleast from 5 to 120");
     } else if (
-      formData?.category?.length < 1 ||
-      formData?.category?.length > 5
+      !newFormData.subtitle ||
+      newFormData.subtitle.length < 5 ||
+      newFormData.subtitle.length > 180
     ) {
-      setErrorMessage("Please select between 1-5 tags.");
-    } else if (Object.keys(formData?.content || {}).length < 1) {
-      setErrorMessage("Content cannot be empty.");
+      setErrorMessage("SubTitle Characters should be atleast from 5 to 180");
+    } else if (
+      !newFormData.category ||
+      newFormData.category.length === 0 ||
+      newFormData.category.length > 5
+    ) {
+      setErrorMessage("There should be atleast 1 to 5 categories should used");
+    } else if (
+      !newFormData.content ||
+      newFormData.content["blocks"].length === 0
+    ) {
+      setErrorMessage("Content is missing");
     } else {
       try {
-        const res = await api.post("/post/new-post", formData);
-        console.log(res.data);
+        const res = await api.post("/post/new-post", newFormData);
+        navigate("/my-post");
       } catch (error) {
         console.log(error);
       }
@@ -108,13 +117,12 @@ const NewPost = () => {
         onKeyDown={handleTagOnKeyDown}
         onChange={(e) => setTagInput(e.target.value)}
       />
-      <PostEditor data={initData} onChange={setInitData} />
+      <PostEditor data={initData} setInitalData={setInitData} />
 
       <ButtonComponent
         type="submit"
         onClick={handlePublish}
         buttonText="publish"
-        isdisable={formData}
       />
     </main>
   );
