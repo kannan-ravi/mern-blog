@@ -3,6 +3,12 @@ import errorHandler from "../middleware/errorHandler.js";
 const getPost = async (req, res, next) => {};
 
 const createPost = async (req, res, next) => {
+  if (req.user.id !== req.params.id) {
+    return next(
+      errorHandler.customErrorHandler(401, "You can only update your account")
+    );
+  }
+  
   const { title, subtitle, content, author, category } = req.body;
   if (title && subtitle && content && author && category) {
     try {

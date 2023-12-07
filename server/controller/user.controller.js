@@ -1,4 +1,5 @@
 import errorHandler from "../middleware/errorHandler.js";
+import postModel from "../models/post.model.js";
 import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
@@ -74,4 +75,24 @@ const uploadImage = async (req, res, next) => {
     next(error);
   }
 };
-export default { updateUser, uploadImage };
+
+// USER POSTS
+const getUserPosts = async (req, res, next) => {
+  if (req.user.id !== req.params.id) {
+    return next(
+      errorHandler.customErrorHandler(401, "You can only get your posts")
+    );
+  }
+  try {
+    const allPosts = await postModel.find();
+    const postUser = await userModel.findOne({ _id: req.params.id });
+    const userPosts = allPosts
+      .filter((post) => req.params.id == post.author)
+      .map((post) => ({ ...post._doc, author: postUser }));
+
+    res.status(200).json(userPosts);
+  } catch (error) {
+    next(error);
+  }
+};
+export default { updateUser, uploadImage, getUserPosts };

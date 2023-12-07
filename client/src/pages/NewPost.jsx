@@ -68,7 +68,10 @@ const NewPost = () => {
       setErrorMessage("Content is missing");
     } else {
       try {
-        const res = await api.post("/post/new-post", newFormData);
+        const res = await api.post(
+          `/post/new-post/${currentUser._id}`,
+          newFormData
+        );
         navigate("/my-post");
       } catch (error) {
         console.log(error);
