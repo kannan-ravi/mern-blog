@@ -45,7 +45,7 @@ const Header = () => {
   const headerUserLogic = currentUser ? (
     <div className="relative flex items-center order-2 space-x-3 md:space-x-0">
       <img
-        className="object-cover w-12 border border-white rounded-full"
+        className="object-cover w-8 h-8 border border-white rounded-full"
         src={currentUser.profilePicture}
         alt={`${currentUser.username} photo`}
         onClick={() => setDropDown(true)}

@@ -4,6 +4,7 @@ const initialState = {
   currentUser: null,
   loading: false,
   error: false,
+  myPost: null,
 };
 
 export const userSlice = createSlice({

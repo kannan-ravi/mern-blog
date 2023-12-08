@@ -14,6 +14,7 @@ router
 
 router.route("/new-post/:id").post(verifyToken, postController.createPost);
 router.route("/my-posts/:id").get(verifyToken, userController.getUserPosts);
+router.route("/recent-posts").get(postController.getPost);
 router
   .route("/images")
   .post(uploadForPost.single("image"), postController.uploadPostImage);
