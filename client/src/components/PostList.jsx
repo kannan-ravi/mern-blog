@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PostList = ({ post }) => {
   return (
@@ -21,10 +22,10 @@ const PostList = ({ post }) => {
       </div>
       <div className="relative group">
         <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-          <a href="">
+          <Link to={`/post/${post._id}`}>
             <span className="absolute inset-0" />
             {post.title}
-          </a>
+          </Link>
         </h3>
         <p className="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">
           {post.subtitle}

@@ -1,10 +1,9 @@
 import postModel from "../models/post.model.js";
 import errorHandler from "../middleware/errorHandler.js";
 
-
 const getPost = async (req, res, next) => {
   try {
-    const getPost = await postModel.find();
+    const getPost = await postModel.findOne({ _id: req.params.id });
     res.status(200).json(getPost);
   } catch (error) {
     next(error);
