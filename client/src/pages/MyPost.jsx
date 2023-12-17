@@ -10,7 +10,6 @@ const MyPost = () => {
   const [myPost, setMyPost] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchPostData = async () => {

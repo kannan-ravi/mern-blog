@@ -1,7 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const PostList = ({ post }) => {
+  const location = useLocation();
+  const { pathname } = location;
   return (
     <article className="flex flex-col items-start justify-between">
       <div className="flex items-center text-xs gap-x-4">
@@ -31,21 +33,36 @@ const PostList = ({ post }) => {
           {post.subtitle}
         </p>
       </div>
-      <div className="relative flex items-center mt-8 gap-x-4">
-        <img
-          src={post.author.profilePicture}
-          alt=""
-          className="w-10 h-10 rounded-full bg-gray-50"
-        />
-        <div className="text-sm leading-6">
-          <p className="font-semibold text-gray-900">
-            <a href="">
-              <span className="absolute inset-0" />
-              {post.author.fullname}
-            </a>
-          </p>
-          <p className="text-gray-600">{post.author.username}</p>
+      <div className="relative flex flex-col justify-between w-full mt-8 sm:flex-row gap-y-8 gap-x-4">
+        <div className="flex items-center gap-x-2">
+          <img
+            src={post.author.profilePicture}
+            alt=""
+            className="w-10 h-10 rounded-full bg-gray-50"
+          />
+          <div className="text-sm leading-6">
+            <p className="font-semibold text-gray-900">
+              <a href="">{post.author.fullname}</a>
+            </p>
+            <p className="text-gray-600">{post.author.username}</p>
+          </div>
         </div>
+        {pathname === "/my-post" && (
+          <div className="flex items-center justify-between sm:gap-x-6 sm:justify-end">
+            <button
+              className="px-3 py-1 font-semibold tracking-wide text-white capitalize rounded bg-slate-600"
+              type="button"
+            >
+              edit
+            </button>
+            <button
+              className="px-3 py-1 font-semibold tracking-wide text-white capitalize bg-red-600 rounded"
+              type="button"
+            >
+              delete
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );
