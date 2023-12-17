@@ -84,11 +84,22 @@ const getUserPosts = async (req, res, next) => {
     );
   }
   try {
-    const allPosts = await postModel.find();
+    const allPosts = await postModel.find().sort({ createdAt: -1 });
     const postUser = await userModel.findOne({ _id: req.params.id });
     const userPosts = allPosts
       .filter((post) => req.params.id == post.author)
-      .map((post) => ({ ...post._doc, author: postUser }));
+      .map((post) => {
+        const { content, ...rest } = post._doc;
+        return {
+          ...rest,
+          author: {
+            fullname: postUser.fullname,
+            username: postUser.username,
+            profilePicture: postUser.profilePicture,
+            _id: postUser._id,
+          },
+        };
+      });
 
     res.status(200).json(userPosts);
   } catch (error) {

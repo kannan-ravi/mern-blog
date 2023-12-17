@@ -6,6 +6,7 @@ import userController from "../controller/user.controller.js";
 
 const router = express.Router();
 
+router.route("/recent-posts").get(postController.getRecentPost);
 router
   .route("/:id")
   .get(postController.getPost)
@@ -14,7 +15,6 @@ router
 
 router.route("/new-post/:id").post(verifyToken, postController.createPost);
 router.route("/my-posts/:id").get(verifyToken, userController.getUserPosts);
-router.route("/recent-posts").get(postController.getPost);
 router
   .route("/images")
   .post(uploadForPost.single("image"), postController.uploadPostImage);

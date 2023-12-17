@@ -1,33 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PostList from "../components/PostList";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  allPostSlice,
-  getPostFailure,
-  getPostStart,
-  getPostSuccess,
-} from "../app/features/PostSlice";
 import api from "../api/axios";
+import LoadingComponent from "../components/ui/LoadingComponent";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { posts, loading } = useSelector(allPostSlice);
+  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        dispatch(getPostStart());
+        setLoading(true);
         const res = await api.get(`/post/recent-posts`);
-        console.log(res.data);
-        dispatch(getPostSuccess(res.data));
+        setPosts(res.data);
+        setLoading(false);
       } catch (error) {
-        dispatch(getPostFailure(error));
+        setError(error.response.data.message);
+        setLoading(false);
       }
     };
 
-    if (!posts) {
-      fetchPostData();
-    }
+    fetchPostData();
   }, []);
 
   return (
@@ -36,7 +30,7 @@ const Home = () => {
         <div className="grid grid-cols-1 mx-auto gap-y-16">
           {posts &&
             posts.map((post) => <PostList post={post} key={post._id} />)}
-          {loading && <p>Loading...</p>}
+          {loading && <LoadingComponent />}
         </div>
       </div>
     </div>

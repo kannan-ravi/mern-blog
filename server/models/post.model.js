@@ -2,43 +2,46 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
+const postSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
 
-  subtitle: {
-    type: String,
-    required: true,
-  },
+    subtitle: {
+      type: String,
+      required: true,
+    },
 
-  content: {
-    type: {},
-    required: true,
-  },
+    content: {
+      type: {},
+      required: true,
+    },
 
-  author: {
-    type: String,
-    required: true,
-  },
+    author: {
+      type: String,
+      required: true,
+    },
 
-  category: {
-    type: [],
-    required: true,
-  },
+    category: {
+      type: [],
+      required: true,
+    },
 
-  datetime: {
-    type: String,
-    default: new Date().toLocaleString(),
-    required: true,
-  },
+    datetime: {
+      type: String,
+      default: new Date().toLocaleString(),
+      required: true,
+    },
 
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-});
+  { timestamps: true }
+);
 
 const postModel = mongoose.model("Post", postSchema);
 export default postModel;
