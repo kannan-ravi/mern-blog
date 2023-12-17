@@ -68,7 +68,14 @@ const createPost = async (req, res, next) => {
 
 const updatePost = async (req, res, next) => {};
 
-const deletePost = async (req, res, next) => {};
+const deletePost = async (req, res, next) => {
+  try {
+    const deletePost = await postModel.findByIdAndDelete(req.params.id);
+    res.status(200).json("Post Deleted");
+  } catch (error) {
+    next(error);
+  }
+};
 
 const uploadPostImage = async (req, res, next) => {
   if (!req.file) {

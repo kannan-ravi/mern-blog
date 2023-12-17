@@ -11,7 +11,7 @@ router
   .route("/:id")
   .get(postController.getPost)
   .put(postController.updatePost)
-  .delete(postController.deletePost);
+  .delete(verifyToken, postController.deletePost);
 
 router.route("/new-post/:id").post(verifyToken, postController.createPost);
 router.route("/my-posts/:id").get(verifyToken, userController.getUserPosts);

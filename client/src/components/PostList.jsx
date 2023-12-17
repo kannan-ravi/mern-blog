@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import api from "../api/axios";
 
-const PostList = ({ post }) => {
+const PostList = ({ post, handleDelete }) => {
   const location = useLocation();
   const { pathname } = location;
+
   return (
     <article className="flex flex-col items-start justify-between">
       <div className="flex items-center text-xs gap-x-4">
@@ -13,12 +15,13 @@ const PostList = ({ post }) => {
 
         {post.category.map((cat, index) => {
           return (
-            <a
+            <Link
+              to=""
               className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
               key={index}
             >
               {cat}
-            </a>
+            </Link>
           );
         })}
       </div>
@@ -42,7 +45,7 @@ const PostList = ({ post }) => {
           />
           <div className="text-sm leading-6">
             <p className="font-semibold text-gray-900">
-              <a href="">{post.author.fullname}</a>
+              <Link to="">{post.author.fullname}</Link>
             </p>
             <p className="text-gray-600">{post.author.username}</p>
           </div>
@@ -50,14 +53,15 @@ const PostList = ({ post }) => {
         {pathname === "/my-post" && (
           <div className="flex items-center justify-between sm:gap-x-6 sm:justify-end">
             <button
-              className="px-3 py-1 font-semibold tracking-wide text-white capitalize rounded bg-slate-600"
+              className="px-3 py-1 font-semibold tracking-wide text-white capitalize duration-300 rounded bg-slate-600 hover:bg-slate-500"
               type="button"
             >
               edit
             </button>
             <button
-              className="px-3 py-1 font-semibold tracking-wide text-white capitalize bg-red-600 rounded"
+              className="px-3 py-1 font-semibold tracking-wide text-white capitalize duration-300 bg-red-600 rounded hover:bg-red-500"
               type="button"
+              onClick={() => handleDelete(post._id)}
             >
               delete
             </button>
