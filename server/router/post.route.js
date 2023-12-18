@@ -10,7 +10,7 @@ router.route("/recent-posts").get(postController.getRecentPost);
 router
   .route("/:id")
   .get(postController.getPost)
-  .put(postController.updatePost)
+  .put(verifyToken, postController.updatePost)
   .delete(verifyToken, postController.deletePost);
 
 router.route("/new-post/:id").post(verifyToken, postController.createPost);

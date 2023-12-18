@@ -7,6 +7,7 @@ import { allUserSlice } from "../app/features/UserSlice";
 import InputComponent from "../components/ui/InputComponent";
 import ButtonComponent from "../components/ui/ButtonComponent";
 import ErrorComponent from "../components/ui/ErrorComponent";
+import useTags from "../hooks/useTags";
 const NewPost = () => {
   const { currentUser } = useSelector(allUserSlice);
 
@@ -14,24 +15,15 @@ const NewPost = () => {
 
   const [initData, setInitData] = useState({});
   const [formData, setFormData] = useState(null);
-  const [tagInput, setTagInput] = useState("");
-  const [tags, setTags] = useState([]);
+
   const [errorMessage, setErrorMessage] = useState();
 
   const handleOnChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleTagOnKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      const trimmedInput = tagInput.trim();
-      if (trimmedInput && !tags.includes(trimmedInput)) {
-        setTags([...tags, trimmedInput]);
-        setTagInput("");
-      }
-    }
-  };
+  const { tags, setTags, setTagInput, tagInput, handleTagInput, removeTag } =
+    useTags();
 
   const handlePublish = async (e) => {
     e.preventDefault();
@@ -79,11 +71,6 @@ const NewPost = () => {
     }
   };
 
-  const removeTag = (tagToRemove) => {
-    const updatedTags = tags.filter((tag) => tag !== tagToRemove);
-    setTags(updatedTags);
-  };
-
   return (
     <main className="flex flex-col max-w-2xl gap-3 px-4 mx-auto mt-20 mb-20">
       <ErrorComponent isError={errorMessage} message={errorMessage} />
@@ -114,10 +101,10 @@ const NewPost = () => {
 
       <InputComponent
         type="text"
-        value={tagInput}
+        defaultValue={tagInput}
         placeholder="Categories"
         name="tag"
-        onKeyDown={handleTagOnKeyDown}
+        onKeyDown={handleTagInput}
         onChange={(e) => setTagInput(e.target.value)}
       />
       <PostEditor data={initData} setInitalData={setInitData} />

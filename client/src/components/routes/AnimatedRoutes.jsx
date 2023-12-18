@@ -13,6 +13,7 @@ import { AnimatePresence } from "framer-motion";
 import NewPost from "../../pages/NewPost";
 import MyPost from "../../pages/MyPost";
 import SinglePost from "../../pages/SinglePost";
+import EditPost from "../../pages/EditPost";
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
@@ -26,6 +27,7 @@ const AnimatedRoutes = () => {
           <Route element={<PrivateRouter />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/new-post" element={<NewPost />} />
+            <Route path="/edit-post/:id" element={<EditPost />} />
             <Route path="/my-post" element={<MyPost />} />
           </Route>
         </Route>

@@ -66,7 +66,28 @@ const createPost = async (req, res, next) => {
   }
 };
 
-const updatePost = async (req, res, next) => {};
+const updatePost = async (req, res, next) => {
+  const { title, subtitle, content, author, category } = req.body;
+
+  try {
+    const updatePost = await postModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          title,
+          subtitle,
+          content,
+          author,
+          category,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json("Post Updated");
+  } catch (error) {
+    next(error);
+  }
+};
 
 const deletePost = async (req, res, next) => {
   try {

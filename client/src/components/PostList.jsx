@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import api from "../api/axios";
 
 const PostList = ({ post, handleDelete }) => {
   const location = useLocation();
@@ -52,12 +51,13 @@ const PostList = ({ post, handleDelete }) => {
         </div>
         {pathname === "/my-post" && (
           <div className="flex items-center justify-between sm:gap-x-6 sm:justify-end">
-            <button
+            <Link
+              to={`/edit-post/${post._id}`}
               className="px-3 py-1 font-semibold tracking-wide text-white capitalize duration-300 rounded bg-slate-600 hover:bg-slate-500"
               type="button"
             >
               edit
-            </button>
+            </Link>
             <button
               className="px-3 py-1 font-semibold tracking-wide text-white capitalize duration-300 bg-red-600 rounded hover:bg-red-500"
               type="button"

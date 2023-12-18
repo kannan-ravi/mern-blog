@@ -7,7 +7,7 @@ import Delimiter from "@editorjs/delimiter";
 import ImageTool from "@editorjs/image";
 import Paragraph from "@editorjs/paragraph";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 const PostEditor = ({ data, setInitalData }) => {
   const editorRef = useRef();
