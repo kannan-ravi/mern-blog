@@ -40,16 +40,21 @@ const MyPost = () => {
     <div className="py-16 bg-white sm:py-32">
       <div className="max-w-4xl px-6 mx-auto lg:px-8">
         <div className="grid grid-cols-1 mx-auto gap-y-16">
-          {loading && <LoadingComponent />}
-          {error && <p>Error : {error}</p>}
-          {myPost &&
+          {loading ? (
+            <LoadingComponent />
+          ) : error ? (
+            <p>Error {error}</p>
+          ) : myPost && myPost.length > 0 ? (
             myPost.map((post) => (
               <PostList
                 post={post}
                 key={post._id}
                 handleDelete={handleDelete}
               />
-            ))}
+            ))
+          ) : (
+            <p className="text-center">No Post to display</p>
+          )}
         </div>
       </div>
     </div>

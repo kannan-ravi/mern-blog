@@ -98,6 +98,38 @@ const deletePost = async (req, res, next) => {
   }
 };
 
+const getPostByCategory = async (req, res, next) => {
+  try {
+    const getCategory = await postModel
+      .find()
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .exec();
+
+    const filteredCatgory = getCategory.filter((post) => {
+      return post.category.includes(req.params.category);
+    });
+
+    const contentRemoved = filteredCatgory.map(async (post) => {
+      const { content, ...rest } = post._doc;
+      const user = await userModel.findOne({ _id: post.author });
+      return {
+        ...rest,
+        author: {
+          fullname: user.fullname,
+          username: user.username,
+          profilePicture: user.profilePicture,
+          _id: user._id,
+        },
+      };
+    });
+
+    res.status(200).json(await Promise.all(contentRemoved));
+  } catch (error) {
+    next(error);
+  }
+};
+
 const uploadPostImage = async (req, res, next) => {
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
@@ -123,5 +155,6 @@ export default {
   updatePost,
   deletePost,
   uploadPostImage,
+  getPostByCategory,
   getRecentPost,
 };

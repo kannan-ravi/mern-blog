@@ -101,7 +101,7 @@ const NewPost = () => {
 
       <InputComponent
         type="text"
-        defaultValue={tagInput}
+        value={tagInput}
         placeholder="Categories"
         name="tag"
         onKeyDown={handleTagInput}

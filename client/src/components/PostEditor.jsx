@@ -22,8 +22,8 @@ const PostEditor = ({ data, setInitalData }) => {
       inlineToolbar: true,
       config: {
         placeholder: "Heading...",
-        levels: [2, 3, 4],
-        defaultlevel: 2,
+        levels: [3, 4, 5],
+        defaultlevel: 3,
       },
     },
 

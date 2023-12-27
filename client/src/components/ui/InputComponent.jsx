@@ -5,13 +5,13 @@ const InputComponent = ({
   placeholder,
   name,
   onChange,
-  defaultValue,
+  value,
   onKeyDown,
 }) => {
   return (
     <input
       type={type}
-      defaultValue={defaultValue}
+      value={value}
       placeholder={placeholder}
       name={name}
       className="w-full py-2 duration-200 border-b-2 outline-none focus:border-black"

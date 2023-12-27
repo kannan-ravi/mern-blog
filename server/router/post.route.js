@@ -15,7 +15,9 @@ router
 
 router.route("/new-post/:id").post(verifyToken, postController.createPost);
 router.route("/my-posts/:id").get(verifyToken, userController.getUserPosts);
+router.route("/category/:category").get(postController.getPostByCategory);
 router
   .route("/images")
   .post(uploadForPost.single("image"), postController.uploadPostImage);
+
 export default router;

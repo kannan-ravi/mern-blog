@@ -79,7 +79,6 @@ const EditPost = () => {
       setErrorMessage("Content is missing");
     } else {
       try {
-        console.log(newFormData);
         const res = await api.put(`/post/${id}`, newFormData);
         navigate("/my-post");
       } catch (error) {
@@ -91,21 +90,23 @@ const EditPost = () => {
   return (
     <>
       {loading ? (
-        <LoadingComponent />
+        <div className="mt-20">
+          <LoadingComponent />
+        </div>
       ) : (
         <main className="flex flex-col max-w-2xl gap-3 px-4 mx-auto mt-20 mb-20">
           <ErrorComponent isError={errorMessage} message={errorMessage} />
           <InputComponent
             type="text"
             placeholder="TITLE"
-            defaultValue={formData?.title}
+            value={formData?.title}
             name="title"
             onChange={handleOnChange}
           />
           <InputComponent
             type="text"
             placeholder="SUBTITLE"
-            defaultValue={formData?.subtitle}
+            value={formData?.subtitle}
             name="subtitle"
             onChange={handleOnChange}
           />
@@ -124,7 +125,7 @@ const EditPost = () => {
 
           <InputComponent
             type="text"
-            defaultValue={tagInput}
+            value={tagInput}
             placeholder="Categories"
             name="tag"
             onKeyDown={handleTagInput}

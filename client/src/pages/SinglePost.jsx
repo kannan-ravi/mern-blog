@@ -3,15 +3,19 @@ import api from "../api/axios";
 import { useParams } from "react-router-dom";
 import { Parser } from "@alkhipce/editorjs-react";
 import LoadingComponent from "../components/ui/LoadingComponent";
+
 const SinglePost = () => {
   const { id } = useParams();
-
   const [postData, setPostData] = useState(null);
+
   useEffect(() => {
     const getPost = async () => {
-      const res = await api.get(`/post/${id}`);
-
-      setPostData(res.data);
+      try {
+        const res = await api.get(`/post/${id}`);
+        setPostData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     getPost();
@@ -22,9 +26,9 @@ const SinglePost = () => {
       {!postData ? (
         <LoadingComponent />
       ) : (
-        <article className="prose lg:prose-xl">
-          <h1>{postData && postData["title"]}</h1>
-          <h2 className="capitalize">{postData && postData["subtitle"]}</h2>
+        <article className="w-full prose lg:prose-xl">
+          <h2>{postData && postData["title"]}</h2>
+          <p className="capitalize">{postData && postData["subtitle"]}</p>
           {postData && <Parser data={postData["content"]} />}
         </article>
       )}
