@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import PostList from "../components/PostList";
 import api from "../api/axios";
 import LoadingComponent from "../components/ui/LoadingComponent";
+import { useParams } from "react-router-dom";
 
-const Home = () => {
+const SingleCategory = () => {
+  const { category } = useParams();
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
@@ -12,7 +14,7 @@ const Home = () => {
     const fetchPostData = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/post/recent-posts`);
+        const res = await api.get(`/post/category/${category}`);
         setPosts(res.data);
         setLoading(false);
       } catch (error) {
@@ -41,4 +43,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SingleCategory;
