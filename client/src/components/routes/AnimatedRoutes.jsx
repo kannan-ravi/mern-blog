@@ -14,7 +14,7 @@ import NewPost from "../../pages/NewPost";
 import MyPost from "../../pages/MyPost";
 import SinglePost from "../../pages/SinglePost";
 import EditPost from "../../pages/EditPost";
-import SingleCategory from "../../pages/singleCategory";
+import SingleCategory from "../../pages/SingleCategory";
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
