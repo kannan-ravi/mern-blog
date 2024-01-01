@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client --production=false"
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [],
   "author": "Kannan Ravindran",
