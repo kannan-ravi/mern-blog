@@ -25,17 +25,23 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 
-if (process.env.NODE_ENV === "production") {
-  const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, "/client/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("Your Server is READY");
-  });
-}
+// if (process.env.NODE_ENV === "production") {
+//   const __dirname = path.resolve();
+//   app.use(express.static(path.join(__dirname, "/client/dist")));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+//   });
+// } else {
+//   app.get("/", (req, res) => {
+//     res.send("Your Server is READY");
+//   });
+// }
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 app.use(errorHandler.defaultErrorHandler);
 mongoose.connection.once("open", () => {
