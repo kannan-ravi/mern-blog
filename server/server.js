@@ -13,11 +13,6 @@ dotenv.config();
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "/client/dist")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
 app.use(express.static("./server/public"));
 
 connectDB();
@@ -29,6 +24,18 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
+
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, "/client/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Your Server is READY");
+  });
+}
 
 app.use(errorHandler.defaultErrorHandler);
 mongoose.connection.once("open", () => {

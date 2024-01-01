@@ -63,13 +63,15 @@ const logoutUser = async (req, res) => {
   res.clearCookie("access_token").status(200).json("Sign Out Success");
 };
 
-const isAuthenticated = async (req, res) => {
+const isAuthenticated = async (req, res, next) => {
   if (req.user.id === req.params.id) {
-    const validUser = await userModel.findOne({ _id: req.params.id });
-    const { password, ...rest } = validUser._doc;
-    return res.json(rest);
-  } else {
-    next(error);
+    try {
+      const validUser = await userModel.findOne({ _id: req.params.id });
+      const { password, ...rest } = validUser._doc;
+      return res.json(rest);
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
