@@ -1,4 +1,4 @@
-import logo from "../assets/img/logo/logo-light-mode.png";
+import logo from "/voices-ink-light.png";
 import api from "../api/axios";
 import { allUserSlice } from "../app/features/UserSlice";
 import { signOut } from "../app/features/UserSlice";
@@ -46,7 +46,7 @@ const Header = () => {
     <div className="relative flex items-center order-2 space-x-3 md:space-x-0">
       <img
         className="object-cover w-8 h-8 border border-white rounded-full"
-        src={currentUser.profilePicture}
+        src={ currentUser.profilePicture}
         alt={`${currentUser.username} photo`}
         onClick={() => setDropDown(true)}
         role="button"

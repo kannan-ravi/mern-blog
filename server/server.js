@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
-app.use(express.static("./server/public"));
+app.use(express.static("./server/public")); 
 
 connectDB();
 

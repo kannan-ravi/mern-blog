@@ -24,7 +24,7 @@ const userSchema = new Schema(
     profilePicture: {
       type: String,
       default:
-        "http://localhost:3000/user-image/01-default-image.png",
+        "/user-image/01-default-image.png",
     },
   },
   { timestamps: true }

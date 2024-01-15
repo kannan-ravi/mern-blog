@@ -56,7 +56,7 @@ const uploadImage = async (req, res, next) => {
     );
   }
 
-  const imageUrl = `http://localhost:3000/user-image/${req.file.filename}`;
+  const imageUrl = `/user-image/${req.file.filename}`;
 
   try {
     const updateProfilePicture = await userModel.findByIdAndUpdate(

@@ -135,7 +135,7 @@ const uploadPostImage = async (req, res, next) => {
     return res.status(400).json({ message: "No file uploaded" });
   }
   try {
-    const imageUrl = `http://localhost:3000/post-image/${req.file.filename}`;
+    const imageUrl = `/post-image/${req.file.filename}`;
 
     const imageData = {
       success: 1,
