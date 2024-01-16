@@ -46,7 +46,9 @@ const PostList = ({ post, handleDelete }) => {
           />
           <div className="text-sm leading-6">
             <p className="font-semibold text-gray-900">
-              <Link to="">{post.author.fullname}</Link>
+              <Link to={`/user/@${post.author.username}`}>
+                {post.author.fullname}
+              </Link>
             </p>
             <p className="text-gray-600">{post.author.username}</p>
           </div>

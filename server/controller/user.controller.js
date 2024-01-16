@@ -3,6 +3,15 @@ import postModel from "../models/post.model.js";
 import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
+// GET USER
+const getUser = async (req, res, next) => {
+  try {
+    const getUser = await userModel.findOne({ username: req.params.id });
+    res.status(200).json(getUser);
+  } catch (error) {
+    next(error);
+  }
+};
 // UPDATE USER DETAILS
 const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id) {
@@ -106,4 +115,4 @@ const getUserPosts = async (req, res, next) => {
     next(error);
   }
 };
-export default { updateUser, uploadImage, getUserPosts };
+export default { updateUser, uploadImage, getUserPosts, getUser };

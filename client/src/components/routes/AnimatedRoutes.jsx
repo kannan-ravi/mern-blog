@@ -15,6 +15,7 @@ import MyPost from "../../pages/MyPost";
 import SinglePost from "../../pages/SinglePost";
 import EditPost from "../../pages/EditPost";
 import SingleCategory from "../../pages/SingleCategory";
+import UserProfile from "../../pages/UserProfile";
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
@@ -26,6 +27,7 @@ const AnimatedRoutes = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/post/:id" element={<SinglePost />} />
           <Route path="/category/:category" element={<SingleCategory />} />
+          <Route path="/user/:id" element={<UserProfile />} />
           <Route element={<PrivateRouter />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/new-post" element={<NewPost />} />

@@ -13,5 +13,5 @@ router
     verifyToken,
     userController.uploadImage
   );
-
+router.route("/@:id").get(userController.getUser);
 export default router;
