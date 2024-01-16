@@ -32,7 +32,9 @@ const PostList = ({ post, handleDelete }) => {
           </Link>
         </h3>
         <p className="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">
-          {post.subtitle}
+          {post.subtitle.length > 150
+            ? post.subtitle.substring(0, 150) + "..."
+            : post.subtitle}
         </p>
       </div>
       <div className="relative flex flex-col justify-between w-full mt-8 sm:flex-row gap-y-8 gap-x-4">
