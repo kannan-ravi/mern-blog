@@ -75,7 +75,7 @@ const PostEditor = ({ data, setInitalData }) => {
   };
 
   useEffect(() => {
-    if (editorRef.current === null) {
+    if (!editorRef.current) {
       editorJsInit();
     }
 
