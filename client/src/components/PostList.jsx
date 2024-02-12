@@ -8,24 +8,27 @@ const PostList = ({ post, handleDelete }) => {
   return (
     <article className="flex flex-col items-start justify-between">
       <div className="flex items-center text-xs gap-x-4">
-        <time dateTime={post.datetime} className="text-gray-500">
-          {post.datetime}
-        </time>
-
-        {post.category.map((cat, index) => {
-          return (
-            <Link
-              to={`/category/${cat}`}
-              className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-              key={index}
-            >
-              {cat}
-            </Link>
-          );
-        })}
+        <div className="flex flex-row flex-wrap items-center gap-y-2 gap-x-6">
+          <time dateTime={post.datetime} className="text-gray-500 ps-0 md:ps-0">
+            {post.datetime}
+          </time>
+          <div className="flex flex-row flex-wrap gap-y-3">
+            {post.category.map((cat, index) => {
+              return (
+                <Link
+                  to={`/category/${cat}`}
+                  className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                  key={index}
+                >
+                  {cat}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </div>
       <div className="relative group">
-        <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+        <h3 className="mt-4 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
           <Link to={`/post/${post._id}`}>
             <span className="absolute inset-0" />
             {post.title}

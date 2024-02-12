@@ -102,6 +102,7 @@ const EditPost = () => {
             value={formData?.title}
             name="title"
             onChange={handleOnChange}
+            className={"text-3xl"}
           />
           <InputComponent
             type="text"

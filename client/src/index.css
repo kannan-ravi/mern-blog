@@ -3,3 +3,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.ce-header {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .ce-header {
+    font-size: 2rem;
+  }
+}
